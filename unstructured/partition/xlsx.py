@@ -86,14 +86,14 @@ def partition_xlsx(
     header = 0 if include_header else None
 
     if filename:
-        sheets = pd.read_excel(filename, sheet_name=None, header=header)
+        sheets = pd.read_excel(filename, sheet_name=None, header=header, engine=kwargs.get("engine", None))
         last_modification_date = get_last_modified_date(filename)
 
     elif file:
         f = spooled_to_bytes_io_if_needed(
             cast(Union[BinaryIO, SpooledTemporaryFile], file),
         )
-        sheets = pd.read_excel(f, sheet_name=None, header=header)
+        sheets = pd.read_excel(f, sheet_name=None, header=header, engine=kwargs.get("engine", None))
         last_modification_date = get_last_modified_date_from_file(file)
 
     elements: List[Element] = []
